@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Include the CJS SDK -->
+    <script src="https://sdk-cdn.mypurecloud.com/javascript/185.0.0/purecloud-platform-client-v2.min.js"></script>
+
+    <script type="text/javascript">
+      // Obtain a reference to the platformClient object
+      const platformClient = require("platformClient");
+      const api = platformClient.ApiClient.instance;
+      const searchParameters = new URLSearchParams(
+        location.search.slice(1) || location.hash.slice(1)
+      );
+      const state = searchParameters.get("state");
+      const conversationId = searchParameters.get("conversationId");
+      const participantId = searchParameters.get("participantId");
+
+      if (state) {
+        // Authenticated
+        const payload = JSON.parse(decodeURIComponent(state));
+
+        api
+          .loginImplicitGrant(
+            "e9dcb2b8-05c6-4166-9d3b-6444a52a7811",
+            "https://GeraldineE.github.io/genesys-demo/"
+          )
+          .then(() => {
+            const conversationsApi = new platformClient.ConversationsApi();
+            conversationsApi
+              .patchConversationsCallParticipant(
+                payload.conversationId,
+                payload.participantId,
+                { muted: true }
+              )
+              .then(() => {
+                console.info(`Conversation was muted successfully`);
+              })
+              .catch((error) => {
+                console.error(`Conversation was not muted successfully`);
+                console.error(error.message);
+              });
+          });
+      } else if (conversationId && participantId) {
+        // Authentication
+        api.loginImplicitGrant(
+          "e9dcb2b8-05c6-4166-9d3b-6444a52a7811",
+          "https://GeraldineE.github.io/genesys-demo/",
+          { state: JSON.stringify({ conversationId, participantId }) }
+        );
+      } else {
+        console.error(`Conversation was not muted successfully`);
+        console.error(
+          `Missing conversationId and/or participantId on search parameters -> ${location.search}`
+        );
+      }
+    </script>
+  </body>
+</html>
