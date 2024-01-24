@@ -26,7 +26,7 @@
 
         api
           .loginImplicitGrant(
-            "e9dcb2b8-05c6-4166-9d3b-6444a52a7811",
+            "b6842dcd-c15b-4db9-a8fb-001e1057a629",
             "https://GeraldineE.github.io/genesys-demo/"
           )
           .then(() => {
@@ -48,7 +48,7 @@
       } else if (conversationId && participantId) {
         // Authentication
         api.loginImplicitGrant(
-          "e9dcb2b8-05c6-4166-9d3b-6444a52a7811",
+          "b6842dcd-c15b-4db9-a8fb-001e1057a629",
           "https://GeraldineE.github.io/genesys-demo/",
           { state: JSON.stringify({ conversationId, participantId }) }
         );
