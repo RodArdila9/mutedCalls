@@ -13,7 +13,8 @@
       // Obtain a reference to the platformClient object
       const platformClient = require("platformClient");
       const api = platformClient.ApiClient.instance;
-        api.setEnvironment(platformClient.PureCloudRegionHosts.sa-east-1);
+      const region = sa-east-1; 
+        api.setEnvironment(platformClient.PureCloudRegionHosts.region);
       const searchParameters = new URLSearchParams(
         location.search.slice(1) || location.hash.slice(1)
       );
